@@ -2,60 +2,63 @@
 
 Simple rsync profiler
 
-## Description
-With rpf you can store different rsync configurations in named profiles.
+### Description
+With `rpf` you can create, save and run different rsync configurations via named profiles.
 
-## Example
-Let's create new profile named 'backup'. Create the profile by typing
-`rpf -c backup`
+### Example
+Let's create new profile named 'backup' by typing `rpf -c backup`
 
-`rpf` created couple of templates in `/home/joe/.rpf/profiles/backup` in our home directory. Assume, that our user name is `joe`.
+Assume that our user name is `user`.
 
-Default rsync configuration template `conf` looks like this:
-```# rsync config template
+`rpf` creates following directories:
+* `/home/user/.rpf`
+* `/home/user/.rpf/shared` - here you can place config files shared by multiple profiles
+* `/home/user/.rpf/profiles` - here all profiles are saved as subdirectories
+
+So `rpf` created for us `/home/user/.rpf/profiles/backup`, that contains files `conf` and `excluded`.
+
+`conf` defines rsync configuration:
+```
+# rsync config template
 #
-# Write each rsync option on separate line. For details see man rsync.
+# Write each rsync option on separate line. For option details see man rsync.
 # Empty lines and lines starting with # are ignored. Dynamic references
 # (e.g. using command substitution) are not supported.
 #
 # Config files shared between different profiles should be saved in
-# ${shared_dir}
+# /home/user/.rpf/shared
 #
 # Example configuration:
 #
 --verbose
 --archive
 --human-readable
-# file with patterns of files and directories in source excluded
-# from transfer
---exclude-from="${profiles_dir}/${profile_name}/exclude"
+# exclude all files that match pattern in:
+--exclude-from=/home/user/.rpf/profiles/backup/exclude
 --relative
 # perform trial run, make no changes
 --dry-run
 # source, e.g.
-/home/joe
+/home/user
 # destination, e.g.
-/mnt/usb_drive/joes_backup
+/mnt/usb_drive/users_backup
 ```
-Now we can edit, add or remove rsync options (for details see `man rsync`) as needed.
+Now we can edit, add or remove rsync options as needed.
 
-If we want to exclude some files or directories in `joe`'s home from rsync transfer, we can update `exclude` file, that looks like this:
-```# `exclude' template
-#
-# Lines starting with # or ; are ignored. For details see man rsync,
-# section FILTER RULES.
-#
+In `exclude` we can define paths or patterns of files and directories we want to exclude from transfer. To exclude `Trash` and `Downloads` add following lines:
 ```
-Add following lines:
+- /home/user/.local/share/Trash
+- /home/user/Downloads
 ```
-- /home/joe/.local/share/Trash
-- /home/joe/Downloads
-- /home/joe/not_importatnt
+Or transfer only `Documents` and `Projects` and exclude everything else:
 ```
-Joe's directories `Trash`, `Downloads` and `not_importatnt` will not be transfered by rsync to the destination. (Excluded patterns can be much more complex. See `man rsync`, section FILTER RULES).
++ /home/user/Documents
++ /home/user/Projects
+- **
+```
+For subtler pattern configuration, see `man rsync`, section FILTER RULES, or google for tutorials.
 
-Now we are ready to run start rsync transfer by typing
-`rpf backup`
+When we are ready, we can start rsync transfer by typing `rpf backup`
 
 That's it.
 
