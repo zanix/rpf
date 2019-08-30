@@ -2,10 +2,16 @@
 
 Simple rsync profiler
 
-### Description
+### Table of Contents
+
+* [Description](#description)
+* [Example](#example)
+* [Security](#security)
+
+### <a name="description"></a> Description
 With `rpf` you can create, save and run different rsync configurations via named profiles.
 
-### Example
+### <a name="example"></a> Example
 Let's create new profile named 'backup' by typing `rpf -c backup`
 
 Assume that our user name is `user`.
@@ -63,3 +69,6 @@ When we are ready, we can start rsync transfer by typing `rpf backup`
 That's it.
 
 For additional `rpf` options see `rpf --help`.
+
+### <a name="security"></a> Security
+`rpf` is not secure against code injection in `conf` file. Any additional code (e.g. `; ./run_evil_script`) is also executed. Therefore, protect your `.rpf/` config directory from malicious users by appropriate permissions. Moreover, exploitation of this behavior can also lead to unexpected side effects.
