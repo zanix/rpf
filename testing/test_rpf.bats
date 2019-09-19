@@ -244,7 +244,6 @@ teardown() {
 #       -> error msg, exit 1
 
 @test "list profiles: 0 available" {
-    skip "Fix unexpected exit status when there are no profiles to list"
     run "${rpf_exec}" -l
     [ "${status}" -eq 0 ]
     [ -z "${lines[0]}" ]

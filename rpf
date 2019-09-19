@@ -138,7 +138,7 @@ list_profiles() {
     #
 
     for item in "${profiles_dir}"/*; do
-        [[ -d "${item}" ]] && basename "${item}"
+        [[ -d "${item}" ]] && basename "${item}" || true
     done
 }
 
@@ -250,7 +250,7 @@ while [[ "${#}" -gt 0 ]]; do
             show_help
             exit 0;;
         -*)
-            echo "{$__name}: error: unknown option \`${1}'"
+            echo "${__name}: error: unknown option \`${1}'"
             exit 1;;
         *)
             check_num_args 1 "${@}"
