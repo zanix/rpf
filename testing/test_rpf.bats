@@ -91,9 +91,8 @@ teardown() {
 
 
 @test "do not allow extra args when calling help" {
-    skip "extra args are not handled properly"
     run "${rpf_exec}" -h "extraArg"
-    [ "${status}" -eq 0 ]
+    [ "${status}" -eq 1 ]
 }
 
 
@@ -173,13 +172,12 @@ teardown() {
 
 
 @test "do not allow extra args when creating profile" {
-    skip "extra args are not handled properly"
     local profile_name="firstArgCreate"
     local profile_dir="${rpf_profiles_dir}/${profile_name}"
 
     run "${rpf_exec}" -c "${profile_name}" "extraArg"
     [ "${status}" -eq 1 ]
-    [ ! -d "${profile_dir}"]
+    [ ! -d "${profile_dir}" ]
 }
 
 # Show profile config
@@ -224,7 +222,6 @@ teardown() {
 
 
 @test "do not allow extra args when showing profile config" {
-    skip "extra args are not handled properly"
     local profile_name="firstArgShow"
 
     # create test profile
@@ -290,7 +287,6 @@ teardown() {
 
 
 @test "do not allow extra args when listing profiles" {
-    skip "extra args are not handled properly"
     local profile_name="firstArgList"
 
     # create test profile
