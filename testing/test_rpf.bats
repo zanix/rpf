@@ -63,7 +63,6 @@ teardown() {
 #   call rpf without any option -> show help, exit 1
 
 @test "show help when invoking rpf without arguments" {
-    skip "Fix wrong exit status."
     run "${rpf_exec}"
     [ "${status}" -eq 1 ]
     [ "${lines[0]}" = "Usage: rpf [OPTION...] PROFILE_NAME" ]
