@@ -139,7 +139,9 @@ list_profiles() {
     #
 
     for item in "${profiles_dir}"/*; do
-        [[ -d "${item}" ]] && basename "${item}" || true
+        if [[ -d "${item}" ]]; then
+            basename "${item}"
+        fi
     done
 }
 
