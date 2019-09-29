@@ -11,6 +11,7 @@ set -o errexit
 set -o nounset
 
 __name=$(basename "${0}")
+__version="0.1"
 
 config_dir="${HOME}/.rpf"
 profiles_dir="${config_dir}/profiles"
@@ -214,8 +215,16 @@ run_rsync() {
     #
 
     local profile_name="${1}"
+    local visual_div="=============================="
     parsed_args=$(grep --invert-match '^#' "${profiles_dir}/${profile_name}/conf" \
                     | tr '\n' ' ')
+
+    # Print debug info
+    echo "${visual_div}"
+    echo "${__name} version: ${__version}"
+    echo "args: ${parsed_args}"
+    echo "${visual_div}"
+
     # Expand $parsed_args - each item from conf file becomes rsync argument
     # shellcheck disable=SC2086
     rsync ${parsed_args}
