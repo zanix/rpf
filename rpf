@@ -105,7 +105,7 @@ create_profile() {
 --human-readable
 # file with patterns of files and directories in source excluded
 # from transfer
---exclude-from="${profiles_dir}/${profile_name}/exclude"
+--exclude-from=${profiles_dir}/${profile_name}/exclude
 --relative
 # perform trial run, make no changes
 --dry-run
@@ -219,8 +219,7 @@ run_rsync() {
     local profile_name="${1}"
     local visual_div="=============================="
     local parsed_args
-    parsed_args=$(grep --invert-match '^#' "${profiles_dir}/${profile_name}/conf" \
-                    | tr '\n' ' ')
+    parsed_args=$(grep --invert-match '^#' "${profiles_dir}/${profile_name}/conf" | tr '\n' ' ' | sed 's/\ $//g')
 
     # Print debug info
     echo "${visual_div}"
